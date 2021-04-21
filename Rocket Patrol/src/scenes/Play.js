@@ -6,15 +6,15 @@ class Play extends Phaser.Scene {
     preload() {
         // load images/tile sprites
         this.load.image('rocket', './assets/rocket.png');
-        this.load.image('spaceship', './assets/spaceship.png');
-        this.load.image('background', './assets/background.png');
+        this.load.image('baby', './assets/baby.png');
+        this.load.image('bgd', './assets/bgd.png');
         // load spritesheet
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
     }
 
     create(){
         // place tile sprite
-        this.background = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0, 0);
+        this.bgd = this.add.tileSprite(0, 0, 640, 480, 'bgd').setOrigin(0, 0);
         // green UI background
         this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
         // white borders
@@ -24,10 +24,10 @@ class Play extends Phaser.Scene {
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
         // add rocket (p1)
         this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'rocket').setOrigin(0.5, 0);
-        // add spaceships (x3)
-        this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, 'spaceship', 0, 30).setOrigin(0, 0);
-        this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'spaceship', 0, 20).setOrigin(0,0);
-        this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4, 'spaceship', 0, 10).setOrigin(0,0);
+        // add babys (x3)
+        this.ship01 = new Baby(this, game.config.width + borderUISize*6, borderUISize*4, 'baby', 0, 30).setOrigin(0, 0);
+        this.ship02 = new Baby(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'baby', 0, 20).setOrigin(0,0);
+        this.ship03 = new Baby(this, game.config.width, borderUISize*6 + borderPadding*4, 'baby', 0, 10).setOrigin(0,0);
         // define keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
@@ -75,10 +75,10 @@ class Play extends Phaser.Scene {
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
             this.scene.start("menuScene");
         }
-        this.background.tilePositionX -= 4;
+        this.bgd.tilePositionX -= 4;
         if (!this.gameOver) {               
             this.p1Rocket.update();         // update rocket sprite
-            this.ship01.update();           // update spaceships (x3)
+            this.ship01.update();           // update babys (x3)
             this.ship02.update();
             this.ship03.update();
         } 
