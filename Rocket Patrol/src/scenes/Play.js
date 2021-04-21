@@ -5,11 +5,11 @@ class Play extends Phaser.Scene {
 
     preload() {
         // load images/tile sprites
-        this.load.image('rocket', './assets/rocket.png');
+        this.load.image('rocket', './assets/pbutter.png');
         this.load.image('baby', './assets/baby.png');
         this.load.image('bgd', './assets/bgd.png');
         // load spritesheet
-        this.load.spritesheet('splat', './assets/splat.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 50});
+        this.load.spritesheet('splat', './assets/splat.png', {frameWidth: 72, frameHeight: 72, startFrame: 0, endFrame: 5});
     }
 
     create(){
@@ -36,8 +36,8 @@ class Play extends Phaser.Scene {
         // animation config
         this.anims.create({
             key: 'explode',
-            frames: this.anims.generateFrameNumbers('splat', { start: 0, end: 50, first: 0}),
-            frameRate: 30
+            frames: this.anims.generateFrameNumbers('splat', { start: 0, end: 5, first: 0}),
+            frameRate: 2
         });
         // initialize score
         this.p1Score = 0;
