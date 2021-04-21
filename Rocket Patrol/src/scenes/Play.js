@@ -9,7 +9,7 @@ class Play extends Phaser.Scene {
         this.load.image('baby', './assets/baby.png');
         this.load.image('bgd', './assets/bgd.png');
         // load spritesheet
-        this.load.spritesheet('splat', './assets/splat.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
+        this.load.spritesheet('splat', './assets/splat.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 50});
     }
 
     create(){
@@ -36,7 +36,7 @@ class Play extends Phaser.Scene {
         // animation config
         this.anims.create({
             key: 'explode',
-            frames: this.anims.generateFrameNumbers('splat', { start: 0, end: 9, first: 0}),
+            frames: this.anims.generateFrameNumbers('splat', { start: 0, end: 50, first: 0}),
             frameRate: 30
         });
         // initialize score
