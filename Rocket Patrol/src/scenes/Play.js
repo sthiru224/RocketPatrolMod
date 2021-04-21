@@ -54,11 +54,11 @@ class Play extends Phaser.Scene {
         this.p1Score = 0;
         // display score
         let scoreConfig = {
-            fontFamily: 'Courier',
+            fontFamily: 'Monaco',
             fontSize: '28px',
             backgroundColor: '#e9bfcd',
             color: '#e1084f',
-            align: 'right',
+            align: 'center',
             padding: {
             top: 5,
             bottom: 5,
@@ -161,6 +161,6 @@ class Play extends Phaser.Scene {
         // score add and repaint
         this.p1Score += carb.points;
         this.scoreLeft.text = this.p1Score;
-        this.sound.play('sfx_explosion');       
+        this.sound.play('sfx_lather');       
     }
 }

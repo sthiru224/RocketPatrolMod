@@ -8,8 +8,12 @@ class Menu extends Phaser.Scene {
         // load audio
         this.load.audio('sfx_select', './assets/blip_select12.wav');
         this.load.audio('sfx_explosion', './assets/babyhit.wav');
+        this.load.audio('sfx_lather', './assets/lather.wav');
         this.load.audio('sfx_rocket', './assets/pbrelease.wav');
         this.load.audio('sfx_bgmusic', './assets/bgm.wav');
+        this.load.image('pbpic', './assets/PBpic.png');
+        this.load.image('splat', './assets/splat.png');
+        this.load.image('saying', './assets/saying.png');
     }
 
     create(){
@@ -29,7 +33,7 @@ class Menu extends Phaser.Scene {
         }
 
         // show menu text
-        this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding, 'PEANUT BUTTER BABY', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding, 'PEANUT BUTTER BABY!', menuConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2, 'Use ←→ arrows to move & (F) to fire', menuConfig).setOrigin(0.5);
         menuConfig.backgroundColor = '#FFC0CB';
         menuConfig.color = '#f34183';
@@ -47,6 +51,13 @@ class Menu extends Phaser.Scene {
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0x89cFF0).setOrigin(0, 0); //right
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize/2, game.config.height, 0xee99e3).setOrigin(0, 0); //right
         
+        //peanuts
+        var f = this.add.sprite(120,100,"pbpic");
+        f.rotation = 1.7;
+        f = this.add.sprite(500,100,"pbpic");
+        var s = this.add.sprite(320,400,"splat");
+        this.add.sprite(400,370,"saying");
+
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
@@ -66,7 +77,7 @@ class Menu extends Phaser.Scene {
           // hard mode
           game.settings = {
             babySpeed: 4,
-            breadSpeed: 6,
+            breadSpeed: 8,
             gameTimer: 45000    
           }
           this.sound.play('sfx_select');
