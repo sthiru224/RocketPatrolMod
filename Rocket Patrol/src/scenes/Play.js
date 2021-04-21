@@ -7,9 +7,11 @@ class Play extends Phaser.Scene {
         // load images/tile sprites
         this.load.image('rocket', './assets/pbutter.png');
         this.load.image('baby', './assets/baby.png');
+        this.load.image('bread', './assets/bread.png');
         this.load.image('bgd', './assets/bgd.png');
         // load spritesheet
         this.load.spritesheet('splat', './assets/splat.png', {frameWidth: 72, frameHeight: 72, startFrame: 0, endFrame: 5});
+        this.load.spritesheet('spread', './assets/spread.png', {frameWidth: 72, frameHeight: 72, startFrame: 0, endFrame: 3});
     }
 
     create(){
@@ -17,7 +19,7 @@ class Play extends Phaser.Scene {
         // place tile sprite
         this.bgd = this.add.tileSprite(0, 0, 640, 480, 'bgd').setOrigin(0, 0);
         // green UI background
-        this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
+        this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 800080).setOrigin(0, 0);
         // white borders
         this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
@@ -29,6 +31,9 @@ class Play extends Phaser.Scene {
         this.ship01 = new Baby(this, game.config.width + borderUISize*6, borderUISize*4, 'baby', 0, 30).setOrigin(0, 0);
         this.ship02 = new Baby(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'baby', 0, 20).setOrigin(0,0);
         this.ship03 = new Baby(this, game.config.width, borderUISize*6 + borderPadding*4, 'baby', 0, 10).setOrigin(0,0);
+        // add breads (x2)
+        this.carb01 = new Bread(this, game.config.width + borderUISize*6, borderUISize*4, 'bread', 0, 50).setOrigin(0, 0);
+        this.carb02 = new Bread(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'bread', 0, 50).setOrigin(0,0);
         // define keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
@@ -40,14 +45,19 @@ class Play extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('splat', { start: 0, end: 5, first: 0}),
             frameRate: 2
         });
+        this.anims.create({
+            key: 'explodebread',
+            frames: this.anims.generateFrameNumbers('spread', { start: 0, end: 3, first: 0}),
+            frameRate: 2
+        });
         // initialize score
         this.p1Score = 0;
         // display score
         let scoreConfig = {
             fontFamily: 'Courier',
             fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
+            backgroundColor: '#e9bfcd',
+            color: '#e1084f',
             align: 'right',
             padding: {
             top: 5,
@@ -72,7 +82,7 @@ class Play extends Phaser.Scene {
         // check key input for restart
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.restart();
-            this.sound.play('sfx_bgmusic');  
+            this.sound.play('sfx_bgmusic');
         }
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
             this.scene.start("menuScene");  
@@ -83,6 +93,8 @@ class Play extends Phaser.Scene {
             this.ship01.update();           // update babys (x3)
             this.ship02.update();
             this.ship03.update();
+            this.carb01.update();           // update breads (x2)
+            this.carb02.update();
         } 
         // check collisions
         if(this.checkCollision(this.p1Rocket, this.ship03)) {
@@ -96,6 +108,14 @@ class Play extends Phaser.Scene {
         if (this.checkCollision(this.p1Rocket, this.ship01)) {
             this.p1Rocket.reset();
             this.shipExplode(this.ship01);
+        }
+        if (this.checkCollision(this.p1Rocket, this.carb01)) {
+            this.p1Rocket.reset();
+            this.breadExplode(this.carb01);
+        }
+        if (this.checkCollision(this.p1Rocket, this.carb02)) {
+            this.p1Rocket.reset();
+            this.breadExplode(this.carb02);
         }
     }
 
@@ -124,6 +144,22 @@ class Play extends Phaser.Scene {
         });
         // score add and repaint
         this.p1Score += ship.points;
+        this.scoreLeft.text = this.p1Score;
+        this.sound.play('sfx_explosion');       
+    }
+    breadExplode(carb) {
+        // temporarily hide bread
+        carb.alpha = 0;                         
+        // create explosion sprite at bread's position
+        let jam = this.add.sprite(carb.x, carb.y, 'spread').setOrigin(0, 0);
+        jam.anims.play('explodebread');             // play explodebread animation
+        jam.on('animationcomplete', () => {    // callback after ani completes
+          carb.reset();                       // reset carb position
+          carb.alpha = 1;                     // make carb visible again
+          jam.destroy();                     // remove explosion sprite
+        });
+        // score add and repaint
+        this.p1Score += carb.points;
         this.scoreLeft.text = this.p1Score;
         this.sound.play('sfx_explosion');       
     }
