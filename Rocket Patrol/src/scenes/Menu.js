@@ -12,7 +12,7 @@ class Menu extends Phaser.Scene {
         this.load.audio('sfx_rocket', './assets/pbrelease.wav');
         this.load.audio('sfx_bgmusic', './assets/bgm.wav');
         this.load.image('pbpic', './assets/PBpic.png');
-        this.load.image('splat', './assets/splat.png');
+        this.load.image('BABE', './assets/splat.png');
         this.load.image('saying', './assets/saying.png');
     }
 
@@ -55,7 +55,7 @@ class Menu extends Phaser.Scene {
         var f = this.add.sprite(120,100,"pbpic");
         f.rotation = 1.7;
         f = this.add.sprite(500,100,"pbpic");
-        var s = this.add.sprite(320,400,"splat");
+        var s = this.add.sprite(320,400,"BABE");
         this.add.sprite(400,370,"saying");
 
         // define keys

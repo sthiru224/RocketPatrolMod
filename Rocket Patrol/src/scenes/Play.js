@@ -133,6 +133,7 @@ class Play extends Phaser.Scene {
 
     shipExplode(ship) {
         // temporarily hide ship
+        console.log("I AM HERE!!!!");
         ship.alpha = 0;                         
         // create explosion sprite at ship's position
         let boom = this.add.sprite(ship.x, ship.y, 'splat').setOrigin(0, 0);
