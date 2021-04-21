@@ -13,6 +13,7 @@ class Play extends Phaser.Scene {
     }
 
     create(){
+        this.sound.play('sfx_bgmusic'); 
         // place tile sprite
         this.bgd = this.add.tileSprite(0, 0, 640, 480, 'bgd').setOrigin(0, 0);
         // green UI background
@@ -71,9 +72,10 @@ class Play extends Phaser.Scene {
         // check key input for restart
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.restart();
+            this.sound.play('sfx_bgmusic');  
         }
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
-            this.scene.start("menuScene");
+            this.scene.start("menuScene");  
         }
         this.bgd.tilePositionX -= 4;
         if (!this.gameOver) {               
