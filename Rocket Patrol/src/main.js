@@ -1,3 +1,9 @@
+//Swetha Thiru
+//Peanut Butter Baby Rocket Patrol Mod
+//April 19
+//15 hours or so
+
+
 let config = {
     type: Phaser.AUTO,
     width: 640,
